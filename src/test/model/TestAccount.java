@@ -33,10 +33,10 @@ public class TestAccount {
     @Test
     void testSecurityLevel() {
         assertEquals("Your password strength is very strong.",testAccount1.securityLevel(VERYSTRONG));
-        assertEquals("Your password strength is strong.",testAccount1.securityLevel(STRONG));
-        assertEquals("Your password strength is medium.",testAccount1.securityLevel(MEDIUM));
-        assertEquals("Your password strength is weak.",testAccount1.securityLevel(WEAK));
-        assertEquals("Your password strength is very weak.",testAccount1.securityLevel(VERYWEAK));
+        assertEquals("Your password strength is strong.",testAccount2.securityLevel(STRONG));
+        assertEquals("Your password strength is medium.",testAccount3.securityLevel(MEDIUM));
+        assertEquals("Your password strength is weak.",testAccount4.securityLevel(WEAK));
+        assertEquals("Your password strength is very weak.",testAccount5.securityLevel(VERYWEAK));
     }
 
     @Test

@@ -16,7 +16,8 @@ public class PasswordManager {
     // REQUIRES: account
     // MODIFIES: this
     // EFFECTS: adds account to password manager
-    public void addAccount(Account account) {
+    public void createAccount(String name, String password) {
+        Account account = new Account(name, password);
         accounts.add(account);
     }
 
@@ -28,8 +29,14 @@ public class PasswordManager {
     }
    
     // EFFECTS: shows a list of accounts with passwords hidden
-    public List<Account> viewAccounts() {
-        return accounts;
+    public String viewAccounts() {
+        String s = "";     
+        for (Account account : accounts) {
+            s = "Name: " + account.getName() 
+            + "Password: " + account.getPassword() 
+            + "USER ID: " + account.getUserid();
+        }
+        return s;
     }
 
     public List<Account> getAccounts() {

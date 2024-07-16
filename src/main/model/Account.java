@@ -43,7 +43,7 @@ public class Account {
                 text = "very weak";
                 break;
         }
-        message = "Your password strength is" + text + ".";
+        message = "Your password strength is " + text + ".";
         return message;
     }
 
