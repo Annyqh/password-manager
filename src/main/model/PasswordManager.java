@@ -8,39 +8,53 @@ import java.util.List;
  */
 public class PasswordManager {
     private List<Account> accounts;
+    private int userid = 0000;
 
     public PasswordManager() {
         accounts = new ArrayList<Account>();
     }
 
-    // REQUIRES: account
+    // REQUIRES: name and password
     // MODIFIES: this
     // EFFECTS: adds account to password manager
-    public void createAccount(String name, String password) {
-        Account account = new Account(name, password);
+    public Account createAccount(String name, String password) {
+        userid++;
+        Account account = new Account(name, password, userid);
         accounts.add(account);
+        return account;
     }
 
-    // REQUIRES: account
+    // REQUIRES: existing user account 
     // MODIFIES: this
     // EFFECTS: removes account from password manager
-    public void removeAccount(Account account) {
-        accounts.remove(account);
+    public List<Account> removeAccount(int userid) {
+        for (Account account : accounts) {
+            if (userid == account.getUserid()) {
+                accounts.remove(account);
+            }
+        }
+        return accounts;
     }
    
     // EFFECTS: shows a list of accounts with passwords hidden
     public String viewAccounts() {
-        String s = "";     
+        String name = "";   
+        String password = "";   
+        String list = "";  
         for (Account account : accounts) {
-            s = "Name: " + account.getName() 
-            + "Password: " + account.getPassword() 
-            + "USER ID: " + account.getUserid();
+            name = account.getName();
+            password = account.getPassword();
+            list = "\nName: " + name + "\tPassword: " + password + "\tUser ID: " + "\"" + userid + "\"";
         }
-        return s;
+        return list;
     }
 
     public List<Account> getAccounts() {
         return accounts;
+    }
+
+    public int getUserid() {
+        return userid;
     }
 
 }

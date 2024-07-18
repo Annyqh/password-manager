@@ -1,31 +1,34 @@
 package ui;
 
+import model.Account;
 import model.PasswordManager;
 
+import java.util.List;
 import java.util.Scanner;
 
 // Password Manager application
 public class ManagerApp {
-    private boolean runApp;
+    private List<Account> accounts;
     private PasswordManager manager;
-    private Scanner input;
+    
+    private Scanner scanner;
+    private boolean isRunning;
 
     // EFFECTS: starts the password manager
     public ManagerApp() {
-        input= new Scanner(System.in);
+        scanner = new Scanner(System.in);
         handleUserInput();
-        this.manager = manager;
     }
 
     // MODIFIES: this
-    //EFFECTS: parses user input until user quits
+    // EFFECTS: parses user input until user quits
     private void handleUserInput() {
-        boolean runApp = true;
-        String command =null;
+        boolean isRunning = true;
+        String command = null;
 
-        while (runApp) {
+        while (isRunning) {
             displayMenu();
-            command = input.next();
+            command = scanner.next();
             command = command.toLowerCase();
             parseCommand(command);
         }
@@ -35,21 +38,41 @@ public class ManagerApp {
     // MODIFIES: this
     // EFFECTS: creates a new account with given information
     private void addAccount() {
-        //stub
+        System.out.println("\nPlease put a name down for your account.");
+        String name = scanner.next();
+        System.out.println("\nPlease put down your password.");
+        String password = scanner.next();
+        manager.createAccount(name, password); 
+        System.out.println("\nYou have successfully added an account.");
+    }
+
+    // REQUIRES: non-zero length of name and password
+    // MODIFIES: this
+    // EFFECTS: creates a new account with given information
+    private void deleteAccount() {
+        System.out.println("\nPlease type in the user ID to delete the account that you want.");
+        int userid = scanner.nextInt();
+        manager.removeAccount(userid);
+        System.out.println("\nYou have successfully deleted an account.");
+    }
+
+    // EFFECTS: prints a list of accounts
+    private void viewAllAccounts() {
+        manager.viewAccounts();
     }
 
     // MODIFIES: this
     // EFFECTS: ends the program
     private void endApp() {
         System.out.println("\nThank you for using it.");
-        input.close();
+        scanner.close();
     }
 
     // EFFECTS: generates a list of options for user to do
     private void displayMenu() {
         System.out.println("\nSelect from:");
         System.out.println("\ta -> add account");
-        System.out.println("\tr -> remove account");
+        System.out.println("\tr -> delete account");
         System.out.println("\tv -> view account");
         System.out.println("\tq -> quit");
     }
@@ -60,32 +83,22 @@ public class ManagerApp {
         if (s.length() > 0) {
             switch (s) {
                 case "a":
-                    //addAccount();
+                    addAccount();
                     break;
                 case "r":
-                    // removeAccount();
+                    deleteAccount();
                     break;
                 case "v":
-                    manager.viewAccounts();
+                    viewAllAccounts();
                     break;
                 case "q":
-                    runApp = false;
+                    isRunning = false;
                     endApp();
                     break;
                 default:
                     System.out.println("Please try a valid command.");
-                    displayMenu();
                     break;
             }
         }
     } 
 }
-
-
-
-
-/*
- *      PasswordManager manager = new PasswordManager();
-        manager.addAccount("Jennifer","abcdef");
-        manager.viewAccounts();
- */
