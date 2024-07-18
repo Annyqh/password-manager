@@ -29,6 +29,6 @@ public class Account {
     }
 
     public int getUserid() {
-        return this.userid;
+        return userid;
     }
 }

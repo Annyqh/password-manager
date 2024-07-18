@@ -50,19 +50,23 @@ public class ManagerApp {
         System.out.println("\nYou have successfully added an account.");
     }
 
-    // REQUIRES: non-zero length of name and password
+    // REQUIRES: existing account
     // MODIFIES: this
     // EFFECTS: creates a new account with given information
     private void deleteAccount() {
         System.out.println("\nPlease type in the user ID to delete the account that you want.");
         int userid = scanner.nextInt();
-        manager.removeAccount(userid);
+        manager.removeAccount(userid-1);
         System.out.println("\nYou have successfully deleted an account.");
     }
 
     // EFFECTS: prints a list of accounts
     private void viewAllAccounts() {
-        manager.viewAccounts();
+        String accountsList = manager.viewAccounts();
+        System.out.println(accountsList);
+
+        System.out.println("\nPress any key to return to the main menu.");
+        scanner.next();
     }
 
     // EFFECTS: generates a list of options for user to do
@@ -71,7 +75,7 @@ public class ManagerApp {
         System.out.println("\nSelect from:");
         System.out.println("\ta -> add account");
         System.out.println("\tr -> delete account");
-        System.out.println("\tv -> view account");
+        System.out.println("\tv -> view accounts");
         System.out.println("\tq -> quit");
     }
 
