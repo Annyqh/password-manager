@@ -1,27 +1,25 @@
 package ui;
 
-import model.Account;
 import model.PasswordManager;
 
-import java.util.List;
 import java.util.Scanner;
 
 // Password Manager application
 public class ManagerApp {
-    private List<Account> accounts;
     private PasswordManager manager;
     
     private Scanner scanner;
-    private boolean isRunning;
 
     // EFFECTS: starts the password manager
     public ManagerApp() {
         scanner = new Scanner(System.in);
+        manager = new PasswordManager();
         handleUserInput();
     }
 
     // MODIFIES: this
     // EFFECTS: parses user input until user quits
+    // Source: TellerApp()
     private void handleUserInput() {
         boolean isRunning = true;
         String command = null;
@@ -30,7 +28,13 @@ public class ManagerApp {
             displayMenu();
             command = scanner.next();
             command = command.toLowerCase();
-            parseCommand(command);
+
+            if (command.equals("q")) {
+                System.out.println("\nThank you for using this password manager.");
+                isRunning = false;
+            } else {
+                parseCommand(command);
+            }
         }
     }
 
@@ -61,14 +65,8 @@ public class ManagerApp {
         manager.viewAccounts();
     }
 
-    // MODIFIES: this
-    // EFFECTS: ends the program
-    private void endApp() {
-        System.out.println("\nThank you for using it.");
-        scanner.close();
-    }
-
     // EFFECTS: generates a list of options for user to do
+    //Source: TellerApp()
     private void displayMenu() {
         System.out.println("\nSelect from:");
         System.out.println("\ta -> add account");
@@ -90,10 +88,6 @@ public class ManagerApp {
                     break;
                 case "v":
                     viewAllAccounts();
-                    break;
-                case "q":
-                    isRunning = false;
-                    endApp();
                     break;
                 default:
                     System.out.println("Please try a valid command.");
