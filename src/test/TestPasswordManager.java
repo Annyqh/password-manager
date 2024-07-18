@@ -41,8 +41,14 @@ public class TestPasswordManager {
 
     @Test
     void testViewAccounts() {
-        Account testAccount1 = testManager.createAccount("Account 1", "Password");
-        Account testAccount2 = testManager.createAccount("Account 2", "Password");
-        assertEquals("Name: Account 1 Password: Password UserID: 0001 Name: Account 2 Password: Password UserID: 0002", testManager.viewAccounts());
+        String empty = testManagerEmpty.viewAccounts();
+        assertTrue(empty.isEmpty());
+
+        Account testAccount1 = testManager.createAccount("Account 1", "Password1");
+        Account testAccount2 = testManager.createAccount("Account 2", "Password2");
+
+        assertEquals("Name: \"Account 1\"\tPassword: \"Password1\"\tUser ID: 1\nName: \"Account 2\"\tPassword: \"Password2\"\tUser ID: 2\n", testManager.viewAccounts());
     }
+
+
 }

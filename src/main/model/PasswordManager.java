@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class PasswordManager {
     private List<Account> accounts;
-    private int userid = 0000;
+    private int userid = 0;
 
     public PasswordManager() {
         accounts = new ArrayList<Account>();
@@ -39,22 +39,20 @@ public class PasswordManager {
     // EFFECTS: shows a list of accounts with passwords hidden
     public String viewAccounts() {
         String name = "";   
-        String password = "";   
+        String password = "";
+        int id = 0;   
         String list = "";  
         for (Account account : accounts) {
             name = account.getName();
             password = account.getPassword();
-            list = "\nName: " + name + "\tPassword: " + password + "\tUser ID: " + "\"" + userid + "\"";
+            id = account.getUserid();
+            list += "Name: \"" + name + "\"\tPassword: \"" + password + "\"\tUser ID: " + "" + id + "\n";
         }
         return list;
     }
 
     public List<Account> getAccounts() {
         return accounts;
-    }
-
-    public int getUserid() {
-        return userid;
     }
 
 }

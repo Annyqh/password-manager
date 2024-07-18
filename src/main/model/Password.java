@@ -18,10 +18,38 @@ public class Password {
         numReqMet = 0;
     }
 
+        // EFFECTS: prints a message about password security level
+        public String getSecurityLevel() {
+            String status;
+            String message;
+            int numReqMet = meetsRequirements();
+    
+            switch (numReqMet) {
+                case 5:
+                    status = "very strong";
+                    break;
+                case 4:
+                    status = "strong";
+                    break;
+                case 3:
+                    status = "medium";
+                    break;
+                case 2:
+                    status = "weak";
+                    break;
+                default:
+                    status = "very weak";
+                    break;
+            }
+            message = "Your password strength is " + status + ".";
+            return message;
+        }
+
     // MODIFIES: this
     // EFFECTS: produces the number of requirements that the password has met
     public int meetsRequirements() {
         int num = 0;
+        
         meetsCharReq();
 
         if (hasSpecialChar) {

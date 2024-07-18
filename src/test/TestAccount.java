@@ -30,16 +30,6 @@ public class TestAccount {
         assertEquals("43123467897!Abc", testAccount1.getPassword());
         assertEquals(0001, testAccount1.getUserid());
         testAccount1.setName("Account Name");
-        testAccount1.setPassword("Password");
-    }
-
-    @Test
-    void testSecurityLevel() {
-        assertEquals("Your password strength is very strong.", testAccount1.securityLevel(5));
-        assertEquals("Your password strength is strong.", testAccount2.securityLevel(4));
-        assertEquals("Your password strength is medium.", testAccount3.securityLevel(3));
-        assertEquals("Your password strength is weak.", testAccount4.securityLevel(2));
-        assertEquals("Your password strength is very weak.", testAccount5.securityLevel(1));
     }
 
 }

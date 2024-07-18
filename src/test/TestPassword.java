@@ -36,4 +36,13 @@ public class TestPassword {
         assertEquals(1,testPassword5.meetsRequirements());
     }   
 
+    @Test
+    void testSecurityLevel() {
+        assertEquals("Your password strength is very strong.", testPassword1.getSecurityLevel());
+        assertEquals("Your password strength is strong.", testPassword2.getSecurityLevel());
+        assertEquals("Your password strength is medium.", testPassword3.getSecurityLevel());
+        assertEquals("Your password strength is weak.", testPassword4.getSecurityLevel());
+        assertEquals("Your password strength is very weak.", testPassword5.getSecurityLevel());
+    }
+
 }
