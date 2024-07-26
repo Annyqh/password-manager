@@ -1,12 +1,15 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 /*
  * Represents a user account with a name, password, and unique account ID
  */
-public class Account {
-    private String name;                                            // Account name                                      
-    private int userid;                                             // Account ID
-    private Password password;                                      // password
+public class Account implements Writable {
+    private String name; // Account name
+    private int userid; // Account ID
+    private Password password; // password
 
     // REQUIRES: password and ID has a non-zero length
     // EFFECTS: constructs an account with an account name, password, and ID
@@ -30,5 +33,14 @@ public class Account {
 
     public int getUserid() {
         return userid;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("userid", userid);
+        json.put("password", password.getPassword());
+        return json;
     }
 }

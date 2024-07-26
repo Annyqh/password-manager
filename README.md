@@ -7,3 +7,5 @@ This account manager will store users' account(s) information and passwords. It 
 - As a user, I want to be able to view the accounts in my account manager.
 - As a user, I want to be able to remove an account in my account manager.
 - As a user, I want to be able to find out how secure my password is.
+- As a user, I want to be able to save my password manager to file (if I so choose)
+- As a user, I want to be able to be able to load my password manager from file (if I so choose)
