@@ -14,9 +14,9 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class TestReader extends TestWritable {
-    final String DESTINATION = "./data/test-file-reader.json";
-    final String EMPTY_FILE_DESTINATION = "./data/test-file-reader-empty.json";
-    final String INVALID_DESTINATION = "./data/file-does-not-exist.json";
+    final String DESTINATION = "./data/testFileReader.json";
+    final String EMPTY_FILE_DESTINATION = "./data/testFileReaderEmpty.json";
+    final String INVALID_DESTINATION = "./data/fileDNE.json";
 
     @Test
     void testReaderNonExistentFile() {

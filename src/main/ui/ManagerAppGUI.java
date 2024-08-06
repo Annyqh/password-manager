@@ -19,16 +19,16 @@ import java.util.Arrays;
 import java.util.Vector;
 
 // Password Manager application
-public class ManagerAppGUI extends JFrame implements ActionListener{
-    
-    private final Dimension WINDOW_SIZE = new Dimension(500, 500);
-    private final String SAVE_LOCATION = "./data/manager-gui.json";
+public class ManagerAppGUI extends JFrame implements ActionListener {
 
     private PasswordManager manager;
-    
+    private Account newAccount;
+    private JDialog popup;
     private JTable table;
 
- 
+    private static final int WIDTH = 500;
+    private static final int HEIGHT = 500;
+    private static final String SAVE_LOCATION = "./data/managerGUI.json";
 
     // EFFECTS: starts the password manager
     public ManagerAppGUI(String s) {
@@ -42,42 +42,24 @@ public class ManagerAppGUI extends JFrame implements ActionListener{
     // MODIFIES: this
     // EFFECTS: creates interface for the password manager
     public void initializeGraphics() {
-        setPreferredSize(WINDOW_SIZE);
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
         JPanel pane = ((JPanel) getContentPane());
-        pane.setBorder(new EmptyBorder(13, 13, 13, 13) );
+        pane.setBorder(new EmptyBorder(13, 13, 13, 13));
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
-        persistenceButtons();
+        persistencePanel();
         createAccountsPanel();
-        taskButtons();
+        taskPanel();
 
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
-        setResizable(false);       
-    }
-
-    // EFFECTS: handles mouse events
-    public void actionPerformed(ActionEvent e) {
-        switch (e.getActionCommand()) {
-            case "Save":
-                saveManager();
-                break;
-            case "Load":
-                loadManager();
-                break;
-            case "Add":
-                createAddDialogBox();
-                break;
-            case "Remove":
-                removeSelected();
-                break;
-        } 
+        setResizable(false);
     }
 
     // MODIFIES: this
     // EFFECTS: creates panel with buttons for persistence tasks
-    private void persistenceButtons() {
+    private void persistencePanel() {
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new FlowLayout());
 
@@ -104,10 +86,10 @@ public class ManagerAppGUI extends JFrame implements ActionListener{
         DefaultTableModel model = new DefaultTableModel(tableData, columnNames);
 
         table = new JTable(model);
-        
+
         table.setAutoCreateRowSorter(true);
-      
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);    
+
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         JScrollPane tablePane = new JScrollPane(table);
         tablePane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         tablePane.setMaximumSize(new Dimension(480, 350));
@@ -117,7 +99,7 @@ public class ManagerAppGUI extends JFrame implements ActionListener{
 
     // MODIFIES: this
     // EFFECTS: creates panel with buttons for adding/removing tasks
-    private void taskButtons() {
+    private void taskPanel() {
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new FlowLayout());
         JButton addButton = new JButton("Add Account");
@@ -130,7 +112,7 @@ public class ManagerAppGUI extends JFrame implements ActionListener{
 
         buttonPane.add(addButton);
         buttonPane.add(removeButton);
-        
+
         add(buttonPane);
     }
 
@@ -153,18 +135,16 @@ public class ManagerAppGUI extends JFrame implements ActionListener{
     // REQUIRES: saved file
     // EFFECTS: loads password manager from previous save
     private void loadManager() {
-         try {
+        try {
             Reader reader = new Reader(SAVE_LOCATION);
             manager = reader.read();
-            ArrayList<Account> accounts = (ArrayList<Account>)manager.getAccounts();
-            DefaultTableModel model = (DefaultTableModel)table.getModel();
-
+            ArrayList<Account> accounts = (ArrayList<Account>) manager.getAccounts();
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
 
             for (Account account : accounts) {
                 model.addRow(new Vector<String>(Arrays.asList(
-                    account.getName(), account.getPassword(), Integer.toString(account.getUserid())
-                )));
-            } 
+                        account.getName(), account.getPassword(), Integer.toString(account.getUserid()))));
+            }
 
         } catch (Exception ex) {
             System.out.println("An error occurred while loading your accounts");
@@ -172,108 +152,120 @@ public class ManagerAppGUI extends JFrame implements ActionListener{
     }
 
     // REQUIRES: valid name and password
-    // EFFECTS: creates account 
+    // EFFECTS: creates account
     private void addAccount(String name, String password) {
-        Account createdAccount = manager.createAccount(name, password);
-        DefaultTableModel model = (DefaultTableModel)table.getModel();
-        model.addRow(new Object[]{createdAccount.getName(), createdAccount.getPassword(), Integer.toString(createdAccount.getUserid())});
+        newAccount = manager.createAccount(name, password);
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.addRow(new Object[] { newAccount.getName(), newAccount.getPassword(),
+                Integer.toString(newAccount.getUserid()) });
     }
-
-    // REQUIRES: account selected
+    
     // MODIFIES: this
     // EFFECTS: removes account
-    private void removeSelected(){
+    private void removeSelected() {
         int[] indices = table.getSelectedRows();
 
         for (int curIndex : indices) {
             int modelIndex = table.convertRowIndexToModel(curIndex);
-            String userIdStr = (String)table.getModel().getValueAt(modelIndex, 2);
+            String userIdStr = (String) table.getModel().getValueAt(modelIndex, 2);
             int userid = Integer.parseInt(userIdStr);
 
-            DefaultTableModel model = (DefaultTableModel)table.getModel();
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
             model.removeRow(modelIndex);
             manager.removeAccount(userid);
-            
+
         }
+    }
+
+    // EFFECTS: initializes popup
+    private void initializePopup(String title) {
+        ManagerAppGUI mainFrame = this;
+        popup = new JDialog(mainFrame, title, true);
+        popup.setSize(260, 250);
+
+        popup.setLocationRelativeTo(mainFrame);
     }
 
     // MODIFIES: this
     // EFFECTS: creates popup upon confirmation of saving file
     private void createSavedPopup() {
-        ManagerAppGUI mainFrame = this;
-        JDialog dialog = new JDialog(mainFrame, "Save Successfully", true);
-        dialog.setLayout(new FlowLayout());
-        dialog.setSize(260, 250);
-
+        // ManagerAppGUI mainFrame = this;
+        // popup = new JDialog(mainFrame, "Save Successfully", true);
+        initializePopup("Saved Successfully");
+        popup.setLayout(new FlowLayout());
 
         JLabel successText = new JLabel("Saved successfully");
 
         Image image = null;
         try {
             image = ImageIO.read(new File("images/cube.jpg")).getScaledInstance(250, 190, DO_NOTHING_ON_CLOSE);
-        } catch (IOException ex){
+        } catch (IOException ex) {
             System.out.println("Error loading image file");
             return;
         }
-        
-        JLabel successIcon = new JLabel(new ImageIcon(image));
 
+        JLabel successIcon = new JLabel(new ImageIcon(image));
         JButton okButton = new JButton("OK");
 
-        dialog.add(successText);
-        dialog.add(successIcon);
-        dialog.add(okButton);
+        popup.add(successText);
+        popup.add(successIcon);
+        popup.add(okButton);
 
-        dialog.setLocationRelativeTo(mainFrame);
-        dialog.setVisible(true);
+        popup.setVisible(true);
     }
 
     // EFFECTS: creates popup to handle creation of new account
-    private void createAddDialogBox(){
-        ManagerAppGUI mainFrame = this;
-        JDialog dialog = new JDialog(mainFrame, "Add Account", true);
-        dialog.setSize(250, 200);
-        dialog.setLayout(new GridLayout(3, 2));
-  
-         // Add components to the dialog
-        JLabel nameLabel = new JLabel("Account Name:");
+    // Source:
+    // https://stackoverflow.com/questions/19064358/how-to-create-a-popup-jpanel-in-a-jframe
+    private void createAccountPopup() {
+        initializePopup("Add account");
+        popup.setLayout(new GridLayout(3, 2));
+
         JTextField nameField = new JTextField();
-        JLabel passwordLabel = new JLabel("Password:");
         JPasswordField passwordField = new JPasswordField();
-  
-        dialog.add(nameLabel);
-        dialog.add(nameField);
-        dialog.add(passwordLabel);
-        dialog.add(passwordField);
-  
         JButton addButton = new JButton("Add Account");
         JButton cancelButton = new JButton("Cancel");
-  
-        // Add action listeners for the buttons
+
+        cancelButton.setActionCommand("Cancel");
+        cancelButton.addActionListener(this);
+
+        popup.add(new JLabel("Account Name:"));
+        popup.add(nameField);
+        popup.add(new JLabel("Password:"));
+        popup.add(passwordField);
+
+        popup.add(addButton);
+        popup.add(cancelButton);
+
         addButton.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 String accountName = nameField.getText();
                 String password = String.valueOf(passwordField.getPassword());
-                System.out.println(accountName);
-                System.out.println(password);
-                mainFrame.addAccount(accountName, password);
-                dialog.dispose();
+                addAccount(accountName, password);
+                popup.dispose();
             }
         });
-  
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dialog.dispose();
-            }
-        });
-  
-        dialog.add(addButton);
-        dialog.add(cancelButton);
-  
-        dialog.setLocationRelativeTo(mainFrame);
-        dialog.setVisible(true);
-      
+
+        popup.setVisible(true);
+    }
+
+    // EFFECTS: handles mouse events
+    public void actionPerformed(ActionEvent e) {
+        switch (e.getActionCommand()) {
+            case "Save":
+                saveManager();
+                break;
+            case "Load":
+                loadManager();
+                break;
+            case "Add":
+                createAccountPopup();
+                break;
+            case "Remove":
+                removeSelected();
+                break;
+            case "Cancel":
+                popup.dispose();
+        }
     }
 }

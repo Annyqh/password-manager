@@ -10,7 +10,7 @@ import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
 class TestWriter {
-    final String DESTINATION = "./data/test-file-writer.json";
+    final String DESTINATION = "./data/testFileWriter.json";
     final String INVALID_DESTINATION = "./data/0Z.:fake:";
 
     @Test
