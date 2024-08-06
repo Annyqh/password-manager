@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 // Password Manager application
 public class ManagerApp {
-    private final String SAVE_LOCATION = "./data/manager.json";
+    private final String SAVE_LOCATION = "./data/manager-cli.json";
 
     private PasswordManager manager;
     private Scanner scanner;
@@ -119,12 +119,10 @@ public class ManagerApp {
             writer.open();
             writer.write(manager);
         } catch (Exception ex) {
-            System.out.println("An error occurred while saving your accounts.");
-            return;
+            System.out.println("An error occurred while saving.");
         } finally {
             writer.close();
         }
-        System.out.println("Accounts saved successfully.");
     }
 
     // REQUIRES: saved file
@@ -134,10 +132,8 @@ public class ManagerApp {
             Reader reader = new Reader(SAVE_LOCATION);
             manager = reader.read();
         } catch (Exception ex) {
-            System.out.println("An error occurred while loading your accounts.");
-            return;
+            System.out.println("An error occurred while loaing your accounts");
         }
-        System.out.println("Accounts loaded successfully.");
     }
 
     // EFFECTS: generates a list of options for user to do
