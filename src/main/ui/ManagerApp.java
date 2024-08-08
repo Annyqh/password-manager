@@ -6,8 +6,6 @@ import model.PasswordManager;
 import persistence.Reader;
 import persistence.Writer;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Scanner;
 
 // Password Manager application
@@ -97,18 +95,18 @@ public class ManagerApp {
         scanner.next();
     }
 
-    // EFFECTS: creates new file if it doesn't exist
-    private void setupStorageFile() {
-        File checkFile = new File(SAVE_LOCATION);
+    // // EFFECTS: creates new file if it doesn't exist
+    // private void setupStorageFile() {
+    //     File checkFile = new File(SAVE_LOCATION);
 
-        try {
-            if (!checkFile.exists()) {
-                checkFile.createNewFile();
-            }
-        } catch (IOException ex) {
-            System.out.println("An error occurred while setting up the save file. ");
-        }
-    }
+    //     try {
+    //         if (!checkFile.exists()) {
+    //             checkFile.createNewFile();
+    //         }
+    //     } catch (IOException ex) {
+    //         System.out.println("An error occurred while setting up the save file. ");
+    //     }
+    // }
 
     // REQUIRES: working file
     // EFFECTS: saves password manager

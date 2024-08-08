@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -25,6 +26,7 @@ public class PasswordManager implements Writable {
         userid++;
         Account account = new Account(name, password, userid);
         accounts.add(account);
+        EventLog.getInstance().logEvent(new Event("Added new Account"));
         return account;
     }
     
@@ -45,9 +47,11 @@ public class PasswordManager implements Writable {
     // MODIFIES: this
     // EFFECTS: removes account from password manager
     public List<Account> removeAccount(int userid) {
-        for (Account account : accounts) {
-            if (userid == account.getUserid()) {
-                accounts.remove(account);
+        Iterator<Account> accountsIterator = accounts.iterator();
+        while (accountsIterator.hasNext()){
+            Account curAccount = accountsIterator.next();
+            if (userid == curAccount.getUserid()){
+                accountsIterator.remove();
             }
         }
         return accounts;
