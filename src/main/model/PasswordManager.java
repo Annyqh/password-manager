@@ -17,6 +17,7 @@ public class PasswordManager implements Writable {
 
     public PasswordManager() {
         accounts = new ArrayList<Account>();
+        EventLog.getInstance().logEvent(new Event("Password Manager has been created"));
     }
 
     // REQUIRES: name and password
@@ -26,7 +27,7 @@ public class PasswordManager implements Writable {
         userid++;
         Account account = new Account(name, password, userid);
         accounts.add(account);
-        EventLog.getInstance().logEvent(new Event("Added new Account"));
+        EventLog.getInstance().logEvent(new Event("Added new Account with ID " + userid));
         return account;
     }
     
@@ -52,6 +53,7 @@ public class PasswordManager implements Writable {
             Account curAccount = accountsIterator.next();
             if (userid == curAccount.getUserid()){
                 accountsIterator.remove();
+                EventLog.getInstance().logEvent(new Event("Removed an account from the the PasswordManager with ID: " + userid));
             }
         }
         return accounts;
