@@ -8,9 +8,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import model.Account;
+import model.Event;
+import model.EventLog;
 import model.PasswordManager;
 import persistence.Reader;
 import persistence.Writer;
@@ -25,6 +28,7 @@ public class ManagerAppGUI extends JFrame implements ActionListener {
     private Account newAccount;
     private JDialog popup;
     private JTable table;
+    private FileWriter fw;
 
     private static final int WIDTH = 500;
     private static final int HEIGHT = 500;
@@ -36,6 +40,13 @@ public class ManagerAppGUI extends JFrame implements ActionListener {
         manager = new PasswordManager();
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                printLog();
+                System.exit(0);
+            }
+        });
         initializeGraphics();
     }
 
@@ -267,5 +278,16 @@ public class ManagerAppGUI extends JFrame implements ActionListener {
             case "Cancel":
                 popup.dispose();
         }
+    }
+
+    public static void printLog() {
+        EventLog log = EventLog.getInstance();
+        String eventLog = "Event log: \n";
+
+        for (Event event : log){
+            eventLog += event.toString() + "\n";
+        }
+        
+        System.out.print(eventLog);
     }
 }

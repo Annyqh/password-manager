@@ -53,7 +53,7 @@ public class PasswordManager implements Writable {
             Account curAccount = accountsIterator.next();
             if (userid == curAccount.getUserid()){
                 accountsIterator.remove();
-                EventLog.getInstance().logEvent(new Event("Removed an account from the the PasswordManager with ID: " + userid));
+                EventLog.getInstance().logEvent(new Event("Removed an account with ID: " + userid));
             }
         }
         return accounts;
