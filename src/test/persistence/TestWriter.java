@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
+// Tests for Writer
 class TestWriter {
     final String DESTINATION = "./data/testFileWriter.json";
     final String INVALID_DESTINATION = "./data/0Z.:fake:";

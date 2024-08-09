@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+// Tests for Reader
 class TestReader extends TestWritable {
     final String DESTINATION = "./data/testFileReader.json";
     final String EMPTY_FILE_DESTINATION = "./data/testFileReaderEmpty.json";

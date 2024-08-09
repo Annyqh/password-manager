@@ -57,7 +57,7 @@ public class Reader {
         }
     }
 
-    // MODIFIES: pm
+    // MODIFIES: password manager
     // EFFECTS: parses account from JSON object and adds it to password manager
     private void addAccount(PasswordManager pm, JSONObject jsonObject) {
         String name = jsonObject.getString("name");
