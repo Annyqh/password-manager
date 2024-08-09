@@ -17,3 +17,10 @@ This account manager will store users' account(s) information and passwords. It 
 - You can locate my visual component by clicking "Save" and find the image on the popup screen
 - You can save the state of my application by clicking "Save"
 - You can reload the state of my application by clicking "Load"
+
+# Phase 4: Task 2
+- Logs every account that has been added and prints out "Added new Account with ID " + userid
+- Logs every account that has been removed and prints out "Removed an account from the the PasswordManager with ID: " + userid
+
+# Phase 4: Task 3
+I would have turned security status into a separate class (most likely enum) so it's more easy to sort from the password manager if I want to create more functions in the future. Since the security of an account relies heavily of a password, I think it should also be equally accessible for both the Account and Password class to retrieve its security status. In a similar vein, user id is currently set in password manager but in reality, a user's id should be attached to account and be created at the same time as the account.
