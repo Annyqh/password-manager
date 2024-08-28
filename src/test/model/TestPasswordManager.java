@@ -43,8 +43,8 @@ public class TestPasswordManager {
         String empty = testManagerEmpty.viewAccounts();
         assertTrue(empty.isEmpty());
 
-        Account testAccount1 = testManager.createAccount("Account 1", "Password1");
-        Account testAccount2 = testManager.createAccount("Account 2", "Password2");
+        testManager.createAccount("Account 1", "Password1");
+        testManager.createAccount("Account 2", "Password2");
 
         assertEquals("Name: \"Account 1\"\tPassword: \"Password1\"\tUser ID: 1\nName: \"Account 2\"\tPassword: \"Password2\"\tUser ID: 2\n", testManager.viewAccounts());
     }

@@ -23,7 +23,7 @@ class TestReader extends TestWritable {
     void testReaderNonExistentFile() {
         Reader reader = new Reader(INVALID_DESTINATION);
         try {
-            PasswordManager pm = reader.read();
+            reader.read();
             fail("IOException expected");
         } catch (IOException e) {
             // pass

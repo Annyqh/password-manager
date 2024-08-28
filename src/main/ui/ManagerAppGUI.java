@@ -8,7 +8,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import model.Account;
@@ -28,7 +27,6 @@ public class ManagerAppGUI extends JFrame implements ActionListener {
     private Account newAccount;
     private JDialog popup;
     private JTable table;
-    private FileWriter fw;
 
     private static final int WIDTH = 500;
     private static final int HEIGHT = 500;
@@ -287,7 +285,7 @@ public class ManagerAppGUI extends JFrame implements ActionListener {
         for (Event event : log){
             eventLog += event.toString() + "\n";
         }
-        
+
         System.out.print(eventLog);
     }
 }
